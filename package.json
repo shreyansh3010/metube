@@ -25,7 +25,8 @@
   "homepage": "https://github.com/shreyansh3010/metube#readme",
   "dependencies": {
     "axios": "^0.24.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "pg": "^8.7.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.14"
