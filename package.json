@@ -1,0 +1,33 @@
+{
+  "name": "metube",
+  "version": "1.0.0",
+  "description": "An app for youtube video information",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shreyansh3010/metube.git"
+  },
+  "keywords": [
+    "youtube",
+    "video",
+    "info",
+    "youtube",
+    "api"
+  ],
+  "author": "shreyansh3010",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shreyansh3010/metube/issues"
+  },
+  "homepage": "https://github.com/shreyansh3010/metube#readme",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.14"
+  }
+}
