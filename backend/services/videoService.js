@@ -15,6 +15,20 @@ const createUpdateVideo = (videoData, callback) =>{
             callback)
 }
 
+// Fetch videos data based on the pagination & search query
+const getVideos = (limit, page, query, callback) => {
+
+    db.query(
+        `SELECT title, description, thumbnail, channel_id, published_at, video_id FROM video 
+        ORDER BY published_at DESC
+        LIMIT ${Number(limit)} 
+        OFFSET ${(Number(page) - 1)*Number(limit)}`,
+        [], 
+        callback)
+        
+}
+
 module.exports = {
-    createUpdateVideo : createUpdateVideo
+    createUpdateVideo : createUpdateVideo,
+    getVideos : getVideos
 }
