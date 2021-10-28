@@ -2,7 +2,7 @@
 const util = require('util');
 
 const redis = require('redis');
-const redisClient = redis.createClient(process.env.REDIS_PORT,process.env.REDIS_HOST,{});
+const redisClient = redis.createClient(6379,process.env.REDIS_HOST,{});
 redisClient.get = util.promisify(redisClient.get); // promisify the get function
 
 const { google } = require('googleapis')

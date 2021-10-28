@@ -10,7 +10,7 @@ const util = require('util');
 
 // Redis cache
 const redis = require('redis');
-const redisClient = redis.createClient(process.env.REDIS_PORT,process.env.REDIS_HOST,{});
+const redisClient = redis.createClient(6379, process.env.REDIS_HOST, {});
 redisClient.get = util.promisify(redisClient.get); // promisify the get function
 redisClient.set = util.promisify(redisClient.set); // promisify the set function
 
@@ -19,7 +19,7 @@ const { fetchYoutubeVideos } = require('./backend/services/youtubeService')
 const { createUpdateVideo } = require('./backend/services/videoService')
 const routes = require('./backend/route')
 
-const youtubeApiKeys = process.env.GOOGLE_API_KEYS.split('|') // Creating api key array
+const youtubeApiKeys = process.env.GOOGLE_API_KEYS.split(',') // Creating api key array
 
 app.set('view engine', 'ejs');
 
