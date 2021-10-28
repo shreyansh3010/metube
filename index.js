@@ -12,6 +12,8 @@ const { fetchYoutubeVideos } = require('./backend/services/youtubeService')
 const { createUpdateVideo } = require('./backend/services/videoService')
 const routes = require('./backend/route')
 
+app.set('view engine', 'ejs');
+
 
 // 10 Sec cron job to fetch youtube 
 cron.schedule('*/10 * * * * *', async () => {
@@ -29,6 +31,13 @@ cron.schedule('*/10 * * * * *', async () => {
 
 // Passing all api url requests to backend routes
 app.use('/api', routes);
+
+// Video list view
+app.get('/', (req, res) => {
+    res.render('index', {
+        req: req
+    });
+})
 
 // Api to check system health
 app.get('/ping', (req, res) => {

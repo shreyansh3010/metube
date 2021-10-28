@@ -16,11 +16,11 @@ const createUpdateVideo = (videoData, callback) =>{
 }
 
 // Fetch videos data based on the pagination & search query
-const getVideos = (limit, page, query, callback) => {
+const getVideos = (limit, page, query, sort, callback) => {
 
     db.query(
         `SELECT title, description, thumbnail, channel_id, published_at, video_id FROM video 
-        ORDER BY published_at DESC
+        ORDER BY published_at ${ sort == 'asc' ? 'ASC' : 'DESC'}
         LIMIT ${Number(limit)} 
         OFFSET ${(Number(page) - 1)*Number(limit)}`,
         [], 
@@ -28,7 +28,18 @@ const getVideos = (limit, page, query, callback) => {
         
 }
 
+// Get the count vedos in the video table
+const getVideosCount = (callback) => {
+
+    db.query(
+        `SELECT MAX(id) FROM video`,
+        [], 
+        callback)
+        
+}
+
 module.exports = {
     createUpdateVideo : createUpdateVideo,
-    getVideos : getVideos
+    getVideos : getVideos,
+    getVideosCount: getVideosCount
 }

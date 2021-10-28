@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container" >
+    <table border="1px solid black" id="videolist">
+        <thead>
+            <th>title</th>
+            <th>description</th>
+            <th>Published On</th>
+        </thead>
+        <tbody style=text-align:center>
+        
+        <script>
+            var table = $(document).ready(function(){
+
+                let reqQuery = <%- JSON.stringify(req.query) %>;
+
+                if(jQuery.isEmptyObject(reqQuery)) {
+                    window.location.href = '?page=1&limit=10'
+                }
+
+                $("#videolist").DataTable({
+                    "columns": [
+                        { "data": "title"},
+                        { "data": "description" },
+                        { "data": "published_at"}
+                    ],
+                    'columnDefs': [ {
+                        'targets': [0,1], /* column index */
+                        'orderable': false, /* true or false */
+                    }],
+                    "processing": true,
+                    "serverSide": true,               
+                    "language": {                
+                        "infoFiltered": ""
+                    },
+                    "pageLength" : reqQuery.limit ? reqQuery.limit : 10,
+                    "search" : {
+                        search : reqQuery.find ? reqQuery.find : '',
+                    },
+                    "ajax": (data, callback, settings) => {
+                        
+                        let queryParams = []
+
+                        queryParams.push(`limit=${data.length}`)
+                        
+                        queryParams.push(`find=${data.search.value}`)
+
+                        queryParams.push(`page=${(data.start/data.length) + 1}`)
+
+                        queryParams.push(`sort=${data.order[0]['dir']}`)
+
+                        let finalQuery = `?${queryParams.join('&')}`
+
+                        $.ajax({
+                            'url':`api/v1/videos${finalQuery}`,
+                            'type':'GET',                                                
+                            "dataType": "json",
+                        })
+                        .done((json) => {
+                            callback(json)
+                        })
+                    },
+                    "pagingType": "simple_numbers",
+                    "dom" : "fltip",
+                    "stateSave":true,
+                    "order":[[2,"desc"]],
+                });
+            });
+        </script>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
