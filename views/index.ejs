@@ -66,6 +66,7 @@
                     "search" : {
                         search : reqQuery.find ? reqQuery.find : '',
                     },
+                    "searchDelay": 2000, // To minimize the api calls for search 
                     "ajax": (data, callback, settings) => {
                         
                         let queryParams = []
