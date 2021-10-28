@@ -17,15 +17,7 @@ const fetchVideos = (req, res) => {
             })
         }
 
-        if (result.rowCount == 0) {
-            return res.status(404).send({
-                recordsTotal : 11,
-                recordsFiltered : 11,
-                data : result.rows
-            })
-        }
-
-        videoService.getVideosCount((err, countData) => {
+        videoService.getVideosCountBySearch(find, (err, countData) => {
 
             if (err) {
                 return res.status(500).send({
@@ -35,8 +27,8 @@ const fetchVideos = (req, res) => {
             }
     
             res.send({
-                recordsTotal : countData.rows[0].max,
-                recordsFiltered : countData.rows[0].max,
+                recordsTotal : countData.rows[0].count,
+                recordsFiltered : countData.rows[0].count,
                 data : result.rows
             })
         })

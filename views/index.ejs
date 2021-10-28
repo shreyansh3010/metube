@@ -5,36 +5,58 @@
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <style>
+        .container {
+            padding: 20px 0;
+        }
+
+        table {
+            border: 1px solid black;
+        }
+
+        table tbody {
+            text-align : center;
+        }
+
+        table tbody tr:nth-child(even) {
+            background-color: #f2f2f2 !important;
+        }
+
+        table tbody tr img {
+            margin: 10px;
+        }
+
+        a, p {
+            margin-top: 5px;
+        }
+    </style>
 </head>
 <body>
 <div class="container" >
-    <table border="1px solid black" id="videolist">
+    <table id="videolist">
         <thead>
-            <th>title</th>
-            <th>description</th>
-            <th>Published On</th>
+            <th>Videos</th>
         </thead>
-        <tbody style=text-align:center>
+        <tbody>
         
         <script>
             var table = $(document).ready(function(){
 
                 let reqQuery = <%- JSON.stringify(req.query) %>;
 
-                if(jQuery.isEmptyObject(reqQuery)) {
-                    window.location.href = '?page=1&limit=10'
-                }
-
                 $("#videolist").DataTable({
                     "columns": [
-                        { "data": "title"},
-                        { "data": "description" },
-                        { "data": "published_at"}
+                        {
+                            mRender: (data, type, row) => {
+                                return `<img src="${row.thumbnail}" />
+                                <br>
+                                <a href="https://www.youtube.com/watch?v=${row.video_id}">${row.title}</a>
+                                <p>${row.published_at}</p>
+                                <p>${row.description}</p>
+                                `
+                            }
+                        }
                     ],
-                    'columnDefs': [ {
-                        'targets': [0,1], /* column index */
-                        'orderable': false, /* true or false */
-                    }],
                     "processing": true,
                     "serverSide": true,               
                     "language": {                
@@ -70,7 +92,7 @@
                     "pagingType": "simple_numbers",
                     "dom" : "fltip",
                     "stateSave":true,
-                    "order":[[2,"desc"]],
+                    "order":[[0,"desc"]]
                 });
             });
         </script>

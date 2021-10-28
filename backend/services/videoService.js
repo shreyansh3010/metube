@@ -16,23 +16,26 @@ const createUpdateVideo = (videoData, callback) =>{
 }
 
 // Fetch videos data based on the pagination & search query
-const getVideos = (limit, page, query, sort, callback) => {
+const getVideos = (limit, page, find, sort, callback) => {
 
-    db.query(
-        `SELECT title, description, thumbnail, channel_id, published_at, video_id FROM video 
-        ORDER BY published_at ${ sort == 'asc' ? 'ASC' : 'DESC'}
-        LIMIT ${Number(limit)} 
-        OFFSET ${(Number(page) - 1)*Number(limit)}`,
+    let sqlQuery = `SELECT title, description, thumbnail, channel_id, published_at, video_id FROM video
+    WHERE (LOWER(title) like '%${find.toLowerCase()}%' OR LOWER(description) like '%${find.toLowerCase()}%')
+    ORDER BY published_at ${ sort == 'asc' ? 'ASC' : 'DESC'}
+    LIMIT ${Number(limit)} 
+    OFFSET ${(Number(page) - 1)*Number(limit)}`
+
+    db.query(sqlQuery,
         [], 
         callback)
         
 }
 
 // Get the count vedos in the video table
-const getVideosCount = (callback) => {
+const getVideosCountBySearch = (find, callback) => {
 
-    db.query(
-        `SELECT MAX(id) FROM video`,
+    let sqlQuery = `SELECT COUNT(*) FROM video${find != '' ? ` WHERE (LOWER(title) like '%${find.toLowerCase()}%' OR LOWER(description) like '%${find.toLowerCase()}%')` : ''}`
+
+    db.query(sqlQuery,
         [], 
         callback)
         
@@ -41,5 +44,5 @@ const getVideosCount = (callback) => {
 module.exports = {
     createUpdateVideo : createUpdateVideo,
     getVideos : getVideos,
-    getVideosCount: getVideosCount
+    getVideosCountBySearch: getVideosCountBySearch
 }
