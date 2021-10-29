@@ -73,3 +73,8 @@ npm run start
   ```
   docker run -it -e DB_HOST= -e DB_NAME= -e DB_PWD= -e DB_USER= -e GOOGLE_API_KEYS=key1,key2,key3 -e YOUTUBE_SEARCH_PARAM= -e REDIS_HOST= -p 3000:3000 metube:latest
   ```
+
+#### Wola! your application is running on port 3000
+
+# Demo
+![](demo.gif)
