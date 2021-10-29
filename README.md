@@ -76,5 +76,9 @@ npm run start
 
 #### Wola! your application is running on port 3000
 
+> Dashboard UI : http://localhost:3000/
+
+> Backend API : http://localhost:3000/api/v1/videos?limit=10&page=1&sort=desc&find=
+
 # Demo
 ![](demo.gif)
